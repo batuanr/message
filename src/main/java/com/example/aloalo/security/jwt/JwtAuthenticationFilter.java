@@ -1,6 +1,6 @@
 package com.example.aloalo.security.jwt;
 
-import com.example.aloalo.security.UserService;
+import com.example.aloalo.security.UserServiceDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +18,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     JwtProvider jwtProvider;
     @Autowired
-    UserService userService;
+    UserServiceDetail userServiceDetail;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = getJwt(request);
             if(token !=null &&jwtProvider.validateToken(token)){
                 String username = jwtProvider.getUserNameFromToken(token);
-                UserDetails userDetails = userService.loadUserByUsername(username);
+                UserDetails userDetails = userServiceDetail.loadUserByUsername(username);
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

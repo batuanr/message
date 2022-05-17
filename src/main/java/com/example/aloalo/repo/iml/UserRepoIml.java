@@ -14,9 +14,7 @@ import javax.sql.DataSource;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class UserRepoIml implements UserRepo{
@@ -60,5 +58,14 @@ public class UserRepoIml implements UserRepo{
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    @Override
+    public List<User> findAll() {
+        List<User> users;
+        String sql = "SELECT u FROM User u";
+        Query query = entityManager.createQuery(sql);
+        users = query.getResultList();
+        return users;
     }
 }

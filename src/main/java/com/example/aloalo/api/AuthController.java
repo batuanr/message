@@ -38,7 +38,7 @@ public class AuthController {
     @Autowired
     JwtProvider jwtProvider;
 
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginFormDTO loginFormDTO) {
 
         Authentication authentication = authenticationManager.authenticate(
@@ -46,7 +46,6 @@ public class AuthController {
         );
 
 
-//
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtProvider.creatToken(authentication);
         UserPrinciple userPrinciple = (UserPrinciple) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -61,9 +60,4 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/ok")
-    public ResponseEntity<?> ok(@RequestBody LoginFormDTO loginFormDTO) {
-        User user = userRepo.findByUsername(loginFormDTO.getUsername());
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
 }

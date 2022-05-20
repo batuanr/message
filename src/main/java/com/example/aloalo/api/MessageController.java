@@ -16,8 +16,9 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
-    @GetMapping
+    @PostMapping("/find-all")
     public ResponseEntity<?> findAll(@RequestBody MessageRequest messageRequest){
+        System.out.println("fdgfdg");
         return new ResponseEntity<>(messageService.findAll(messageRequest.getSenderId(), messageRequest.getReceiverId()), HttpStatus.OK);
     }
 
